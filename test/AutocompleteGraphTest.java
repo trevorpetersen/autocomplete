@@ -8,8 +8,8 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public class AutocompleteGraphTest {
-    AutocompleteGraph graph;
-    List<String> wordList;
+    private AutocompleteGraph graph;
+    private List<String> wordList;
 
     @Before
     public void setup(){
@@ -126,22 +126,86 @@ public class AutocompleteGraphTest {
     }
 
     @Test
-    public void find() {
+    public void find1() {
+        for(String word : wordList){
+            assertEquals(word, graph.getWord(graph.find(word)));
+        }
+
+        assertNull(graph.find("asdfhorevsekb"));
+        assertNotNull(graph.find("ca"));
     }
 
     @Test
     public void contains() {
+        for(String word : wordList){
+            assertTrue(graph.contains(word));
+        }
+
+        assertFalse(graph.contains("ca"));
+        assertFalse(graph.contains("asdfasdf"));
+        assertFalse(graph.contains("catss"));
+        assertFalse(graph.contains("plret"));
+
     }
 
     @Test
     public void getWord() {
+        for(String word : wordList){
+            assertEquals(word, graph.getWord(graph.find(word)));
+        }
     }
 
     @Test
     public void findNextWord() {
+        List<String> testList = new ArrayList<>();
+        testList.add("but");
+        testList.add("butt");
+        testList.add("butter");
+        testList.add("buttered");
+        testList.add("button");
+        testList.add("bz");
+        testList.add("can");
+        testList.add("cin");
+        testList.add("daz");
+
+        AutocompleteGraph testGraph = new AutocompleteGraph(testList);
+
+        for(int i = 0; i < testList.size() -1; i++){
+            TrieNode current = testGraph.find(testList.get(i));
+
+            TrieNode next = testGraph.findNextWord(current);
+            TrieNode lookup = testGraph.find(testList.get(i+1));
+            assertEquals(testGraph.getWord(next) + " = " + testGraph.getWord(lookup), next, lookup);
+        }
     }
 
     @Test
     public void autocomplete() {
+        List<String> testList = new ArrayList<>();
+        testList.add("but");
+        testList.add("butt");
+        testList.add("butter");
+        testList.add("buttered");
+        testList.add("button");
+        testList.add("bz");
+        testList.add("can");
+        testList.add("cin");
+        testList.add("daz");
+
+        AutocompleteGraph testGraph = new AutocompleteGraph(testList);
+
+        int n = 2;
+        for(int i = 0; i < testList.size() - 1 - n; i++){
+            List<String> autoWords = testGraph.autocomplete(testList.get(i), n);
+
+            System.out.println(testList.get(i));
+            System.out.println(autoWords);
+
+            assertEquals(n, autoWords.size());
+            for(int j = 0; j < autoWords.size(); j++){
+                assertEquals(autoWords.get(j), testList.get(i + j + 1));
+            }
+
+        }
     }
 }

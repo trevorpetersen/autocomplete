@@ -127,22 +127,18 @@ public class AutocompleteGraph implements TrieGraph{
     public List<String> autocomplete(String word, int n){
         List<String> suggestions = new ArrayList<>();
         TrieNode current = find(word);
-
-        for(int i = 0; i < n; i++){
-            if(current == null){
-                break;
-            }
-
-            TrieNode next = current.getFirstChild();
-
-            if(next == null){
-                break;
-            }
-
-            suggestions.add(getWord(next));
-            current = next;
+        if(current == null){
+            return suggestions;
         }
-
+        
+        for(int i = 0; i < n; i++) {
+            current = findNextWord(current);
+            if(current == null){
+                return suggestions;
+            }else{
+                suggestions.add(getWord(current));
+            }
+        }
         return suggestions;
     }
 }
