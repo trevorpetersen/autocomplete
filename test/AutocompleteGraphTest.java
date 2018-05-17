@@ -197,10 +197,7 @@ public class AutocompleteGraphTest {
         int n = 2;
         for(int i = 0; i < testList.size() - 1 - n; i++){
             List<String> autoWords = testGraph.autocomplete(testList.get(i), n);
-
-            System.out.println(testList.get(i));
-            System.out.println(autoWords);
-
+            
             assertEquals(n, autoWords.size());
             for(int j = 0; j < autoWords.size(); j++){
                 assertEquals(autoWords.get(j), testList.get(i + j + 1));

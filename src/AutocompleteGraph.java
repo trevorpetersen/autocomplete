@@ -130,7 +130,7 @@ public class AutocompleteGraph implements TrieGraph{
         if(current == null){
             return suggestions;
         }
-        
+
         for(int i = 0; i < n; i++) {
             current = findNextWord(current);
             if(current == null){
