@@ -19,7 +19,7 @@ public class Driver {
             }
         }
 
-        TrieNode node = graph.find("azusa");
+        System.out.println(graph.autocomplete("hel", 5));
     }
 
     public static List<String> readTextFile(String filename){

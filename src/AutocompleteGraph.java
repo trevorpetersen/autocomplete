@@ -8,6 +8,13 @@ public class AutocompleteGraph implements TrieGraph{
         root = new TrieNode(' ', false);
     }
 
+    public AutocompleteGraph(List<String> wordList){
+        this();
+        for(String word : wordList){
+            insert(word);
+        }
+    }
+
     @Override
     public void insert(String word) {
         TrieNode current = root;
@@ -17,7 +24,7 @@ public class AutocompleteGraph implements TrieGraph{
                 current = current.getChild(currentChar);
             }else{
                 TrieNode newNode = new TrieNode(currentChar, i == word.length()-1);
-                current.addChild(currentChar, newNode);
+                current.setChild(currentChar, newNode);
                 newNode.setParent(current);
                 current = newNode;
             }
@@ -27,7 +34,18 @@ public class AutocompleteGraph implements TrieGraph{
 
     @Override
     public void delete(String word) {
+        TrieNode node = find(word);
+        if(node == null){
+            return;
+        }
 
+        node.setIsEnd(false);
+
+        while(!node.hasAnyChildren() && !node.isEnd() && node.hasParent()){
+            TrieNode parent = node.getParent();
+            parent.setChild(node.getValue(), null);
+            node = parent;
+        }
     }
 
     @Override

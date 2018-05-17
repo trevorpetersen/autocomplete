@@ -34,7 +34,7 @@ public class TrieNode {
         return parent != null;
     }
 
-    public void addChild(char c, TrieNode child){
+    public void setChild(char c, TrieNode child){
         children[convertCharToIndex(c)] = child;
     }
 
